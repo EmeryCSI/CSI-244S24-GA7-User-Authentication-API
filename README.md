@@ -1,4 +1,3 @@
-
 # Renton Technical College CSI-244
 
 <div align="center">  
@@ -31,7 +30,7 @@ mkdir screenshots
 mkdir userapi
 cd userapi
 npm init -y
-npm install express mongoose cors bcrypt
+npm install express mongoose cors
 ```
 
 ### Why Use Environment Variables?
@@ -66,15 +65,6 @@ npm install dotenv
 ```env
 MONGO_URI=YOUR_CONNECTION_STRING_HERE
 TOKEN_SECRET=YOUR_RANDOM_SECRET_KEY_HERE
-```
-
-Notice that the connection string specifies a specific database. The userapi. If you would like for your application to use a specific database you can add it directly in the connection string after the base address but before the url parameters.
-
-The token secret will be used to encrypt user passwords. It is important that you keep this token secret secure, if your token secret becomes exposed then attackers will be able to decrypt your user passwords if they get access to the database.
-
-```env
-MONGO_URI=mongodb+srv://<username>:<password>@cluster0.server.mongodb.net/userapi?retryWrites=true&w=majority&appName=Cluster0
-TOKEN_SECRET=jh129837123
 ```
 
 Replace `YOUR_CONNECTION_STRING_HERE` with your actual MongoDB connection string and `YOUR_RANDOM_SECRET_KEY_HERE` with a randomly generated secret key.
@@ -198,7 +188,9 @@ exports.login = async (req, res) => {
 ### Explanation
 
 - The `register` function checks if the email already exists, hashes the password, and creates a new user in the database.
-- The `login` function checks if the email exists, validates the password, and assigns a JWT token if the login is successful.
+- The `login` function checks if the email exists, validates the password, and assigns a JWT token if the login is
+
+ successful.
 
 ### Step 3: Adding the routes to the server
 
@@ -209,6 +201,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 dotenv.config();
 
@@ -224,6 +217,16 @@ mongoose.connect(
 // Middleware to parse JSON requests
 app.use(express.json());
 
+// CORS Middleware
+app.use(cors()); // Allow all origins
+
+// If you want to allow specific origins, use:
+// const corsOptions = {
+//   origin: 'http://example.com',
+//   optionsSuccessStatus: 200
+// };
+// app.use(cors(corsOptions));
+
 // Route middlewares
 app.use("/api/user", userRoutes);
 
@@ -234,7 +237,7 @@ app.listen(3000, () => console.log("Server is up and running"));
 
 - We import the necessary packages and configure the environment variables.
 - We connect to the MongoDB database using Mongoose.
-- We set up middleware to parse JSON requests.
+- We set up middleware to parse JSON requests and handle CORS.
 - We define the route middleware to handle requests to `/api/user`.
 
 ### Step 4: Creating the User Model
@@ -295,8 +298,6 @@ Create a new file `verifyToken.js` in the root directory.
 
 ```javascript
 const jwt = require("jsonwebtoken");
-
-
 
 module.exports = function (req, res, next) {
   // Get the token from the request header
@@ -364,6 +365,16 @@ mongoose.connect(
 // Middleware to parse JSON requests
 app.use(express.json());
 
+// CORS Middleware
+app.use(cors()); // Allow all origins
+
+// If you want to allow specific origins, use:
+// const corsOptions = {
+//   origin: 'http://example.com',
+//   optionsSuccessStatus: 200
+// };
+// app.use(cors(corsOptions));
+
 // Route Middlewares
 app.use("/api/user", userRoutes);
 app.use("/api/posts", postRoutes);
@@ -388,4 +399,4 @@ Take screenshots of the results and add them to your repository.
 
 ### Summary
 
-We have created a REST API for user registration and authentication using the MVC pattern. This includes setting up the server with Express, connecting to MongoDB with Mongoose, and securing routes with JWTs. The advanced password validation ensures users create strong passwords, enhancing the security of your application.
+We have created a REST API for user registration and authentication using the MVC pattern. This includes setting up the server with Express, connecting to MongoDB with Mongoose, and securing routes with JWTs. The advanced password validation ensures users create strong passwords, enhancing the security of your application. CORS is configured to allow cross-origin requests, making it easier to develop and test your application across different domains and ports.
