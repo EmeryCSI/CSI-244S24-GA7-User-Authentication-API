@@ -73,7 +73,7 @@ Notice that the connection string specifies a specific database. The userapi. If
 The token secret will be used to encrypt user passwords. It is important that you keep this token secret secure, if your token secret becomes exposed then attackers will be able to decrypt your user passwords if they get access to the database.
 
 ```env
-mongodb+srv://<username>:<password>@cluster0.server.mongodb.net/userapi?retryWrites=true&w=majority&appName=Cluster0
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.server.mongodb.net/userapi?retryWrites=true&w=majority&appName=Cluster0
 TOKEN_SECRET=jh129837123
 ```
 
