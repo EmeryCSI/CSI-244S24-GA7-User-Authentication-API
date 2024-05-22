@@ -30,7 +30,7 @@ mkdir screenshots
 mkdir userapi
 cd userapi
 npm init -y
-npm install express mongoose cors
+npm install express mongoose cors jsonwebtoken bcrypt dotenv
 ```
 
 ### Why Use Environment Variables?
@@ -188,9 +188,7 @@ exports.login = async (req, res) => {
 ### Explanation
 
 - The `register` function checks if the email already exists, hashes the password, and creates a new user in the database.
-- The `login` function checks if the email exists, validates the password, and assigns a JWT token if the login is
-
- successful.
+- The `login` function checks if the email exists, validates the password, and assigns a JWT token if the login is successful.
 
 ### Step 3: Adding the routes to the server
 
@@ -287,7 +285,9 @@ module.exports = mongoose.model("User", userSchema);
 
 - We define a schema for the user model with validation.
 - The `name` and `email` fields are required and have minimum length requirements.
-- The `password` field is required and must contain at least one digit, one lowercase letter, one uppercase letter, and one special character.
+- The `password` field is required
+
+ and must contain at least one digit, one lowercase letter, one uppercase letter, and one special character.
 - The `date` field is automatically set to the current date when a new user is created.
 
 ### Step 5: Protecting Routes
