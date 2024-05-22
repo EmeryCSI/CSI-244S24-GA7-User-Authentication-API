@@ -31,7 +31,7 @@ mkdir screenshots
 mkdir userapi
 cd userapi
 npm init -y
-npm install express mongoose cors
+npm install express mongoose cors bcrypt
 ```
 
 ### Why Use Environment Variables?
