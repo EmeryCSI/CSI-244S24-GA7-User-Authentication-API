@@ -48,19 +48,15 @@ To enhance the security and flexibility of your application, it's a best practic
 
 ![Image showing mongodb.com creating a new collection](Images/2.png)
 
-### Step 2: Install dotenv Package
-
-First, you'll need to install the `dotenv` package, which will load environment variables from a `.env` file into `process.env` in your application. Run the following command in your project directory:
-
-```powershell
-npm install dotenv
-```
-
-### Step 3: Create a .env File
+### Step 2: Create a .env File
 
 1. In the root of your project directory, create a file named `.env`.
 2. Open the `.env` file in VS Code.
 3. Add your MongoDB connection string and token secret as environment variables in the file. For example:
+4. Make sure to add the the name of the database in the connection string. For example:
+
+   mongodb+srv://<username>:<password>@cluster0.47axqwf.mongodb.net/<dbname>?retryWrites=true&w=majority&appName=Cluster0
+
 
 ```env
 MONGO_URI=YOUR_CONNECTION_STRING_HERE
@@ -69,7 +65,7 @@ TOKEN_SECRET=YOUR_RANDOM_SECRET_KEY_HERE
 
 Replace `YOUR_CONNECTION_STRING_HERE` with your actual MongoDB connection string and `YOUR_RANDOM_SECRET_KEY_HERE` with a randomly generated secret key.
 
-### Step 4: Ensure .env is in Your .gitignore
+### Step 3: Ensure .env is in Your .gitignore
 
 To prevent sensitive information from being pushed to your Git repository, make sure your `.env` file is listed in your `.gitignore` file. If you don't have a `.gitignore` file, create one in the root of your project, and add the following lines:
 
