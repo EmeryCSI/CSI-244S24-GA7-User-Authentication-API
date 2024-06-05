@@ -158,8 +158,72 @@ module.exports = mongoose.model("User", userSchema);
  and must contain at least one digit, one lowercase letter, one uppercase letter, and one special character.
 - The `date` field is automatically set to the current date when a new user is created.
 
+### Step 2: Creating the User Controller
 
-### Step 1: Setting up HTTP routes
+In the root of the project directory, create a new folder `controllers`.
+
+Within the `controllers` folder, create a new file `userController.js`.
+
+Inside `userController.js`, implement the controller functions for registering and logging in users:
+
+```javascript
+const User = require("../models/User");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+// Controller function for user registration
+exports.register = async (req, res) => {
+  try {
+    // Check if the email already exists in the database
+    const emailExist = await User.findOne({ email: req.body.email });
+    if (emailExist) return res.status(400).send("Email already exists");
+
+    // Hash the user's password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+    // Create a new user
+    const user = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    // Save the user to the database
+    const savedUser = await user.save();
+    res.send({ user: user._id });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+};
+
+// Controller function for user login
+exports.login = async (req, res) => {
+  try {
+    // Check if the email exists in the database
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) return res.status(400).send("Email not found");
+
+    // Validate the user's password
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) return res.status(400).send("Invalid password");
+
+    // Create and assign a JWT token
+    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+    res.header("auth-token", token).send(token);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+};
+```
+
+### Explanation
+
+- The `register` function checks if the email already exists, hashes the password, and creates a new user in the database.
+- The `login` function checks if the email exists, validates the password, and assigns a JWT token if the login is successful.
+
+
+### Step 3: Setting up HTTP routes
 
 In the root of the project directory, create a new folder `routes`.
 
