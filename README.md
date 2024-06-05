@@ -99,6 +99,66 @@ const app = express();
 app.listen(3000, () => console.log("Server is up and running"));
 ```
 
+### Step 1: Creating the User Model
+
+In the root of the project directory, create a new folder `models`.
+
+Within the `models` folder, create a new file `User.js`.
+
+Inside `User.js`, create a new schema for the user model with validation:
+
+```javascript
+//bring in mongoose
+const mongoose = require("mongoose");
+//create a new schema
+const userSchema = new mongoose.Schema({
+  //name is required with a minimum length of 2
+  name: {
+    type: String,
+    required: true,
+    minlength: 2,
+  },
+  //email is required with a minimum length of 4 and must be unique
+  email: {
+    type: String,
+    required: true,
+    minlength: 4,
+    unique: true,
+  },
+  //password is required with a minimum length of 6 and must contain at
+  //least one digit, one lowercase letter, one uppercase letter,
+  //and one special character
+  password: {
+    type: String,
+    required: true,
+    minlength: 6,
+    validate: {
+      validator: function (v) {
+        return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/.test(v);
+      },
+      message: (props) => `${props.value} is not a valid password!`,
+    },
+  },
+  //date is required and will default to the current date
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+//export the model
+module.exports = mongoose.model("User", userSchema);
+```
+
+### Explanation
+
+- We define a schema for the user model with validation.
+- The `name` and `email` fields are required and have minimum length requirements.
+- The `password` field is required
+
+ and must contain at least one digit, one lowercase letter, one uppercase letter, and one special character.
+- The `date` field is automatically set to the current date when a new user is created.
+
+
 ### Step 1: Setting up HTTP routes
 
 In the root of the project directory, create a new folder `routes`.
@@ -235,57 +295,7 @@ app.listen(3000, () => console.log("Server is up and running"));
 - We set up middleware to parse JSON requests and handle CORS.
 - We define the route middleware to handle requests to `/api/user`.
 
-### Step 4: Creating the User Model
 
-In the root of the project directory, create a new folder `models`.
-
-Within the `models` folder, create a new file `User.js`.
-
-Inside `User.js`, create a new schema for the user model with validation:
-
-```javascript
-const mongoose = require("mongoose");
-
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minlength: 2,
-  },
-  email: {
-    type: String,
-    required: true,
-    minlength: 4,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6,
-    validate: {
-      validator: function (v) {
-        return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/.test(v);
-      },
-      message: props => `${props.value} is not a valid password!`
-    }
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-module.exports = mongoose.model("User", userSchema);
-```
-
-### Explanation
-
-- We define a schema for the user model with validation.
-- The `name` and `email` fields are required and have minimum length requirements.
-- The `password` field is required
-
- and must contain at least one digit, one lowercase letter, one uppercase letter, and one special character.
-- The `date` field is automatically set to the current date when a new user is created.
 
 ### Step 5: Protecting Routes
 
