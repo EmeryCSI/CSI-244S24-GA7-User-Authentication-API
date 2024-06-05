@@ -301,7 +301,11 @@ app.listen(3000, () => console.log("Server is up and running"));
 
 To protect routes, we'll create a middleware to verify the token.
 
-Create a new file `verifyToken.js` in the root directory.
+Create a new folder called middleWares in the root of the project.
+
+In that folder create a file called verifyToken.js
+
+Add the following code to verifyToken.js
 
 ```javascript
 const jwt = require("jsonwebtoken");
