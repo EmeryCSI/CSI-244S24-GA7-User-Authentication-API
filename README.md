@@ -54,9 +54,10 @@ To enhance the security and flexibility of your application, it's a best practic
 2. Open the `.env` file in VS Code.
 3. Add your MongoDB connection string and token secret as environment variables in the file. For example:
 4. Make sure to add the the name of the database in the connection string. For example:
-
-   mongodb+srv://<username>:<password>@cluster0.47axqwf.mongodb.net/<dbname>?retryWrites=true&w=majority&appName=Cluster0
-
+5. 
+```env
+   mongodb+srv://<username>:<password>@cluster.mongodb.net/<dbname>?retryWrites=true&w=majority&appName=Cluster0
+```
 
 ```env
 MONGO_URI=YOUR_CONNECTION_STRING_HERE
