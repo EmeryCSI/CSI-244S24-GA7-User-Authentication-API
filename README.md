@@ -360,18 +360,16 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 // Import Routes
 const userRoutes = require("./routes/userRoutes");
-const postRoutes = require("./routes/postsRoutes");
+const protectedRoutes = require("./routes/protectedRoutes");
 
 dotenv.config();
 
 // Connect to DB
-mongoose.connect(
-  process.env.MONGO_URI,
-  { useNewUrlParser: true, useUnifiedTopology: true }
-);
+mongoose.connect(process.env.MONGO_URI);
 
 // Middleware to parse JSON requests
 app.use(express.json());
@@ -388,9 +386,10 @@ app.use(cors()); // Allow all origins
 
 // Route Middlewares
 app.use("/api/user", userRoutes);
-app.use("/api/posts", postRoutes);
+app.use("/api/protected", protectedRoutes);
 
 app.listen(3000, () => console.log("Server is up and running"));
+
 ```
 
 ### Explanation
