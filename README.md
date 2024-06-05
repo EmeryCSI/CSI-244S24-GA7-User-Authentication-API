@@ -406,9 +406,9 @@ app.listen(3000, () =>
 
 Using Postman, you can now test the following:
 
-1. Register a new user via `/api/user/register`.
-2. Login via `/api/user/login` to receive a JWT.
-3. Access the protected route `/api/protected` using the JWT as an `auth-token` header.
+1. Register a new user via a post request to `/api/user/register`.
+2. Login via a post request to `/api/user/login` to receive a JWT.
+3. Access the protected route via a get request to `/api/protected` using the JWT as an `auth-token` header.
 4. You should get the userId as a response.
 
 Take screenshots of the results and add them to your repository.
