@@ -247,7 +247,7 @@ module.exports = router;
 - We define two routes, `/register` and `/login`, and connect them to the respective controller functions in `userController`.
 - `userController` handles the actual logic for registration and login.
 
-### Step 3: Adding the routes to the server
+### Step 4: Adding the routes to the server
 
 Inside `server.js`, import the user routes and add middleware:
 
@@ -356,7 +356,7 @@ module.exports = router;
 - We create a protected route that uses the `verifyToken` middleware to ensure only authenticated users can access it.
 - The route sends back the user information if the token is valid.
 
-Import `protectedRoutes` into `server.js` and set up the middleware:
+Import `protectedRoutes` into `server.js`
 
 ```javascript
 const express = require("express");
@@ -407,11 +407,13 @@ app.listen(3000, () =>
 Using Postman, you can now test the following:
 
 1. Register a new user via a post request to `/api/user/register`.
-2. Login via a post request to `/api/user/login` to receive a JWT.
-3. Access the protected route via a get request to `/api/protected` using the JWT as an `auth-token` header.
-4. You should get the userId as a response.
-
-Take screenshots of the results and add them to your repository.
+2. Take a screenshot of the response and add it to the screenshots folder.
+3. Login via a post request to `/api/user/login` to receive a JWT.
+4. Take a screenshot of the response and add it to the screenshots folder.
+5. Access the protected route via a get request to `/api/protected` using the JWT as an `auth-token` header.
+6. You should get the userId as a response.
+7. Take a screenshot of the response and add it to the screenshots folder.
+8. Create a new commit with a message of Complete and push changes to your assignment repository.
 
 ### Summary
 
