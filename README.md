@@ -334,7 +334,7 @@ module.exports = function (req, res, next) {
 
 ### Step 6: Creating a Protected Route
 
-In the `routes` folder, create a new file `postsRoutes.js`.
+In the `routes` folder, create a new file `protectedRoutes.js`.
 
 ```javascript
 const router = require("express").Router();
@@ -353,7 +353,7 @@ module.exports = router;
 - We create a protected route that uses the `verifyToken` middleware to ensure only authenticated users can access it.
 - The route sends back the user information if the token is valid.
 
-Import `postsRoutes` into `server.js` and set up the middleware:
+Import `protectedRoutes` into `server.js` and set up the middleware:
 
 ```javascript
 const express = require("express");
